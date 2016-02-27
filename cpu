@@ -1,0 +1,11 @@
+cpu核心与负载：
+
+物理CPU(即板子上插了多少个宏观的CPU芯片)、物理核(CPU中包含的物理内核个数)以及逻辑核（用SMT技术将物理核虚拟而成的逻辑处理单元）的判断依据：
+在/proc/cpuinfo文件的条目中：
+1.有多少个不同的physical id就有多少个物理CPU。
+2.cpu cores记录了对应的物理CPU（以该条目中的physical id标识）有多少个物理核。
+3.siblings记录了对应的物理CPU（以该条目中的physical id标识）有多少个逻辑核。
+查看命令如下
+cat /proc/cpuinfo | grep "physical id" | sort | uniq -c             查看物理CPU数目及各自包含多少个逻辑核
+cat /proc/cpuinfo | grep "cpu cores" | uniq                         查询系统CPU的物理核数
+
