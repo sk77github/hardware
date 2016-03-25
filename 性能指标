@@ -1,0 +1,19 @@
+cpu：
+http://www.cnblogs.com/yjf512/p/3383915.html
+
+
+iowait（注意和所谓的异步IO不同，异步IO是软件层次，iowait是内核近cpu层次）：
+http://www.searchtb.com/2013/02/iowait_why_and_optimization.html
+当某个cpu产生iowait时，那么这个cpu上肯定有进程在进行io，并且在等待io完成（rq->nr_iowait>0），
+并且这个cpu上没有进程可运行（p == rq->idle），cpu在idle
+
+kernel将cpu归为3个状态：idle，iowait，busy；
+idle是真正的idle，没活可干，没有进程是runnale的，cpu空闲；
+iowait是cpu没法干活（需要的数据还没就绪呢，所以叫wait），这时候cpu也空闲；
+busy就是在干活。
+idle和iowait时虽然cpu都是空闲的，但是将这两个状态区分开是很有意义的，因为iowait可以衡量由io问题导致的cpu空闲。
+
+现在的linux kernel的设计和实现方式就决定了cpu、内存、io是互相干扰的，工程师就是在了解实现细节和约束之后把程序的效率搞到极致。
+
+
+
